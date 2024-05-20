@@ -1,10 +1,38 @@
-import { Provider } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 import React from "react";
 import SigninForm from "./components/SigninForm";
 
-const Signin = () => {
+const Signin = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    redirect("/app");
+  }
   return (
     <div className="flex h-[91.5vh]">
+      <div className="w-full bg-gray-100 shadow-lg lg:w-1/3 flex items-center justify-center">
+        <div className="max-w-md w-full p-6">
+          <h1 className="text-3xl font-semibold mb-6 text-black text-center">
+            Sign In
+          </h1>
+          <p className="text-sm font-poppins font-semibold mb-6 text-outer-space-900 text-center">
+            Welcome!, Showcase you skills with us.
+          </p>
+          <SigninForm />
+          {/* <div className="mt-4 text-sm text-gray-600 text-center">
+            <p>
+              Already have an account?{" "}
+              <a href="#" className="text-black hover:underline">
+                Login here
+              </a>
+            </p>
+          </div> */}
+        </div>
+      </div>
       <div className="hidden lg:flex items-center justify-center flex-1 bg-crimson-300 text-outer-space-950">
         <div className="max-w-md text-center">
           <svg
@@ -235,25 +263,6 @@ const Signin = () => {
         </div>
       </div>
       {/* Right Pane */}
-      <div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
-        <div className="max-w-md w-full p-6">
-          <h1 className="text-3xl font-semibold mb-6 text-black text-center">
-            Sign Up
-          </h1>
-          <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
-            Join to Our Community with all time access and free{" "}
-          </h1>
-          <SigninForm />
-          <div className="mt-4 text-sm text-gray-600 text-center">
-            <p>
-              Already have an account?{" "}
-              <a href="#" className="text-black hover:underline">
-                Login here
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

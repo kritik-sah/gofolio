@@ -17,6 +17,7 @@ import {
   FaXTwitter,
   FaYoutube,
 } from "react-icons/fa6";
+import { HiFolderOpen } from "react-icons/hi2";
 
 interface DynamicIconProps extends React.SVGProps<SVGSVGElement> {
   name: string;
@@ -39,6 +40,7 @@ const iconComponents: Record<string, IconType> = {
   FaUser,
   FaXTwitter,
   FaYoutube,
+  HiFolderOpen,
 };
 
 const Icon: React.FC<DynamicIconProps> = ({ name, ...rest }) => {

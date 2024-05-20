@@ -14,12 +14,6 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         get(name: string) {
-          console.log(
-            "name ==>",
-            request.cookies.get(
-              "sb-yelbdeiefeqnignhtxkc-auth-token-code-verifier"
-            )
-          );
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
@@ -60,23 +54,7 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const { data, error } = await supabase.auth.getUser();
-  console.log("user : ", error);
+  await supabase.auth.getUser();
 
-  // refreshing the auth token
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (
-    !user &&
-    request.nextUrl.pathname !== "/signin" &&
-    request.nextUrl.pathname !== "/"
-  ) {
-    return NextResponse.redirect(new URL("/signin", request.url));
-  }
-  return NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  return response;
 }
